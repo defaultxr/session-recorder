@@ -8,16 +8,18 @@
 
 (defvar *output-file* nil)
 
-(defun write-metadata ()
-  "Write some basic metadata about the session."
-  (print (list :internal-time-units-per-second internal-time-units-per-second) *output-file*)
+(defun write-to-log (item)
+  (prin1 item *output-file*)
   (fresh-line *output-file*)
   (force-output *output-file*))
 
+(defun write-metadata ()
+  "Write some basic metadata about the session."
+  (write-to-log (list :internal-time-units-per-second internal-time-units-per-second)))
+
 (defun record-string (string)
   "Record a string of Lisp code that was sent to Swank."
-  (format *output-file* "(~d ~a)~%" (get-internal-real-time) string)
-  (force-output *output-file*))
+  (write-to-log (list (get-internal-real-time) string)))
 
 (defun listener-eval (&rest args)
   "Internal swank-recorder function that is swapped with `swank-repl:listener-eval' when recording is started."
