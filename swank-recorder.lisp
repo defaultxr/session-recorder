@@ -8,6 +8,8 @@
 
 (defvar *saved-swank-compile-string-for-emacs* #'swank:compile-string-for-emacs)
 
+;;; recording
+
 (defvar *output-file* nil)
 
 (defun write-to-log (item)
@@ -22,11 +24,11 @@
 
 (defun record-string (string)
   "Record a string of Lisp code that was sent to Swank."
-  (write-to-log (list (get-internal-real-time) string)))
+  (write-to-log (list (get-internal-real-time) (string-trim (list #\newline #\space) string))))
 
 (defun listener-eval (&rest args)
   "Internal swank-recorder function that is swapped with `swank-repl:listener-eval' when recording is started."
-  (record-string (string-right-trim (list #\newline #\space) (elt args 0)))
+  (record-string (elt args 0))
   (apply *saved-swank-listener-eval* args))
 
 (defun interactive-eval (&rest args)
@@ -51,7 +53,7 @@
               (fdefinition 'swank:compile-string-for-emacs) (fdefinition 'compile-string-for-emacs)))))
 
 (defun stop-recording ()
-  "Stop recording Swank inputs. Strictly speaking, this is not necessary, because "
+  "Stop recording Swank inputs. Strictly speaking, this is not necessary, because all events recorded are immediately flushed to the file."
   (close *output-file*)
   (setf *output-file* nil
         (fdefinition 'swank-repl:listener-eval) *saved-swank-listener-eval*
