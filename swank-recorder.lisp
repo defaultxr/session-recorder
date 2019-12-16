@@ -17,7 +17,8 @@
 
 (defun write-metadata ()
   "Write some basic metadata about the session."
-  (write-to-log (list :internal-time-units-per-second internal-time-units-per-second)))
+  (write-to-log (list :internal-time-units-per-second internal-time-units-per-second))
+  (write-to-log (list :random-state *random-state*)))
 
 (defun record-string (string)
   "Record a string of Lisp code that was sent to Swank."
