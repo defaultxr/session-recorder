@@ -1,7 +1,5 @@
-#+TITLE: swank-recorder
+#+TITLE: session-recorder
 
-~swank-recorder~ is a simple library to record input sent to Swank. It records the ~internal-real-time~ and the string of code to a file of your choosing. Just load the system, call ~(start-recording "/path/to/your/output/log.lisp")~ and go! A ~stop-recording~ function is provided, but not strictly needed since each input to Swank is flushed immediately.
+~session-recorder~ (formerly ~swank-recorder~) is a simple library to record input sent to Lisp via Slime or Sly. It records the ~internal-real-time~ and the string of code to a file of your choosing. Just load the system, call ~(start-recording "/path/to/your/output/log.lisp")~ and go! A ~stop-recording~ function is provided, but not strictly needed since each output is flushed immediately.
 
-* Future
-
-- Sub-system for playing back recorded sessions. 
+Playback of recordings is also in the works, though not fully functional at the moment yet.
